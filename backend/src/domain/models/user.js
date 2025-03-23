@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
-import { sequelize } from '../config/database.js';
-const bcrypt = require('bcrypt');
+import { sequelize } from '../../config/database.js';
+import bcrypt from 'bcryptjs';
 
 const User = sequelize.define('User', {
   id: {
@@ -11,7 +11,9 @@ const User = sequelize.define('User', {
   username: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: {
+      msg: 'Já existe um usuario com esse nome.',
+    }
   },
   password: {
     type: DataTypes.STRING,
@@ -20,34 +22,36 @@ const User = sequelize.define('User', {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    unique: {
+      msg: 'Já existe um usuario com esse email.',
+    },
     validate: {
-      isEmail: true
+      isEmail: true,
     }
   }
 }, {
   timestamps: true,
   tableName: "user",
   hooks: {
-    // encripta a senha ao criar usuário
     beforeCreate: async (user) => {
-      if (user.password) {
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(user.password, salt);
-      }
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(user.password, salt);
     },
-    // caso alterou a senha, encripta também
     beforeUpdate: async (user) => {
       if (user.changed('password')) {
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
       }
-    }
+    },
   }
 });
 
-User.prototype.comparePassword = async function(password) {
-  return await bcrypt.compare(password, this.password);
+// Método para comparar senha
+User.prototype.comparePassword = function(password) {
+  console.log('password', password);
+  
+  return bcrypt.compareSync(password, this.password);
 };
+
 
 export { User }

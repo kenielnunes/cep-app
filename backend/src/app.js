@@ -1,10 +1,17 @@
 import express from 'express'
 import cors from 'cors'
 import { sequelize } from './config/database.js' 
+import { getCep } from './presentation/controllers/cep.controller.js';
+import { createUser } from './presentation/controllers/user.controller.js';
+import { loginUser } from './presentation/controllers/auth.controller.js';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.get('/cep/:cep', getCep);
+app.post('/user', createUser);
+app.post('/auth', loginUser);
 
 const connectDB = async () => {
   try {
@@ -17,5 +24,7 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
+
+
 
 export { app, connectDB };
