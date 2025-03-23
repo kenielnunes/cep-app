@@ -4,14 +4,15 @@ import { sequelize } from './config/database.js'
 import { getCep } from './presentation/controllers/cep.controller.js';
 import { createUser } from './presentation/controllers/user.controller.js';
 import { loginUser } from './presentation/controllers/auth.controller.js';
+import { authMiddleware } from './middlewares/auth.middleware.js';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/cep/:cep', getCep);
 app.post('/user', createUser);
 app.post('/auth', loginUser);
+app.get('/cep/:cep', authMiddleware, getCep);
 
 const connectDB = async () => {
   try {

@@ -34,8 +34,6 @@ export class UserAuthUseCase {
       // Verificar a senha
       const isMatch = await user.comparePassword(password);
 
-      console.log('isMatch', isMatch);
-      
       if (!isMatch) {
         throw new HttpException({
           type: 'unauthorized',

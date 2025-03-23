@@ -1,29 +1,34 @@
-
-import dotenv from "dotenv";
-import { User } from "../domain/models/user";
+import { HttpStatusCode } from "axios";
 import jwt from 'jsonwebtoken'
-dotenv.config();
+import { env } from "../config/env.config.js";
 
-module.exports = async (req, res, next) => {
+export const authMiddleware = async (req, res, next) => {
   try {
     // Obter o token do header
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({
-        error: 'Não autorizado'
+      return res.status(HttpStatusCode.Unauthorized).json({
+        message: 'Não autorizado!'
       });
     }
-    
+
+    // Pega apenas o valor do token, sem o 'Bearer'
     const token = authHeader.split(' ')[1];
+
+    console.log('token', token);
+    console.log('decoded', jwt.decode(token));
+    
     
     // Verificar token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, env.JWT_SECRET);
 
     console.log('decoded', decoded);
     
-    
     next();
   } catch (error) {
+
+    console.log('error', error);
+    
     if (error.name === 'TokenExpiredError') {
       return res.status(401).json({
         error: 'Token expirado'

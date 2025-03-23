@@ -7,13 +7,9 @@ const createUserUseCase = new CreateUserUseCase(userRepository);
 async function createUser(req, res) {
   const body = req.body;
 
-  console.log('body', body);
-
   try {
     const user = await createUserUseCase.execute(body);
 
-    console.log('user',user);
-    
     res.status(201).json({ message: 'Usuário criado com sucesso!', user });
   } catch (error) {
     console.log('error',error);
