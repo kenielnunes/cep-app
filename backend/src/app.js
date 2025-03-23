@@ -2,15 +2,19 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-const PORT = process.env.PORT || 3001;
-
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.json({ message: "api on" });
-});
+const connectDB = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("conectado ao db");
+    await sequelize.sync();
+    console.log("db sync");
+  } catch (error) {
+    console.error("erro ao conectar ao db -> ", error);
+    process.exit(1);
+  }
+};
 
-app.listen(PORT, () => {
-  console.log(`server rodando na porta: ${PORT}`);
-});
+module.exports = { app, connectDB };
