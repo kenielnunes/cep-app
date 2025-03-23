@@ -1,5 +1,6 @@
-const express = require("express");
-const cors = require("cors");
+import express from 'express'
+import cors from 'cors'
+import { sequelize } from './config/database.js' 
 
 const app = express();
 app.use(cors());
@@ -9,7 +10,7 @@ const connectDB = async () => {
   try {
     await sequelize.authenticate();
     console.log("conectado ao db");
-    await sequelize.sync();
+    await sequelize.sync({ alter: true });
     console.log("db sync");
   } catch (error) {
     console.error("erro ao conectar ao db -> ", error);
@@ -17,4 +18,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = { app, connectDB };
+export { app, connectDB };
