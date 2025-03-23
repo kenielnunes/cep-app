@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Search, MapPin } from "lucide-react";
+import { Button } from "./shared/Button";
 
-export default function SearchForm({ onSearch, isLoading }) {
+export function SearchForm({ onSearch, isLoading }) {
   const [cep, setCep] = useState("");
 
   const handleSubmit = (e) => {
@@ -12,15 +13,12 @@ export default function SearchForm({ onSearch, isLoading }) {
   };
 
   const handleChange = (e) => {
-    // Allow only numbers and format with hyphen
     let value = e.target.value.replace(/\D/g, "");
 
-    // Format with hyphen if length > 5
     if (value.length > 5) {
       value = value.substring(0, 5) + "-" + value.substring(5, 8);
     }
 
-    // Limit to 9 characters (including hyphen)
     if (value.length <= 9) {
       setCep(value);
     }
@@ -29,7 +27,7 @@ export default function SearchForm({ onSearch, isLoading }) {
   return (
     <div className="bg-white rounded-xl shadow-lg border border-cep-light overflow-hidden transition-all duration-300 hover:shadow-xl">
       <div className="bg-gradient-to-r from-cep-primary/10 to-cep-accent/10 p-4 pb-4">
-        <h2 className="text-lg font-semibold text-cep-primary flex items-center gap-2">
+        <h2 className="text-lg font-semibold bg-primary text-cep-primary flex items-center gap-2">
           <Search className="h-5 w-5" />
           Consultar Endereço
         </h2>
@@ -48,10 +46,10 @@ export default function SearchForm({ onSearch, isLoading }) {
             />
           </div>
 
-          <button
+          <Button
             type="submit"
             disabled={isLoading || cep.length < 8}
-            className="btn-primary w-full"
+            className="w-full"
           >
             <span className="flex items-center justify-center gap-2">
               {isLoading ? (
@@ -66,7 +64,7 @@ export default function SearchForm({ onSearch, isLoading }) {
                 </>
               )}
             </span>
-          </button>
+          </Button>
         </form>
       </div>
     </div>
