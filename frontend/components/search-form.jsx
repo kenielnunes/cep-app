@@ -5,30 +5,36 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Search, MapPin } from "lucide-react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function SearchForm({ onSearch, isLoading }) {
-  const [cep, setCep] = useState("");
+  const schema = z.object({
+    cep: z
+      .string()
+      .min(1, { message: "Campo obrigatório!" })
+      .refine((value) => /^\d{5}-?\d{3}$/.test(value), {
+        message: "Cep inválido!",
+      }),
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (cep.trim()) {
-      onSearch(cep);
-    }
-  };
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+    watch,
+    setValue,
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
 
-  const handleChange = (e) => {
-    // Allow only numbers and format with hyphen
+  const handleCepChange = (e) => {
     let value = e.target.value.replace(/\D/g, "");
-
-    // Format with hyphen if length > 5
     if (value.length > 5) {
-      value = value.substring(0, 5) + "-" + value.substring(5, 8);
+      value = value.slice(0, 5) + "-" + value.slice(5, 8);
     }
-
-    // Limit to 9 characters (including hyphen)
-    if (value.length <= 9) {
-      setCep(value);
-    }
+    setValue("cep", value);
   };
 
   return (
@@ -40,31 +46,30 @@ export default function SearchForm({ onSearch, isLoading }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-6">
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(onSearch)} className="space-y-2">
           <div className="relative flex items-center">
             <MapPin className="absolute left-3 text-cep-primary h-5 w-5" />
             <Input
               type="text"
-              value={cep}
-              onChange={handleChange}
+              {...register("cep")}
               placeholder="Digite o CEP (ex: 01001-000)"
               className="pl-10 pr-4 py-3 rounded-lg border-2 border-cep-light focus:border-cep-primary focus:ring-2 focus:ring-cep-accent/20 transition-all duration-300"
               maxLength={9}
+              onChange={handleCepChange}
             />
           </div>
-
+          {errors?.cep && (
+            <p className="text-sm text-destructive">{errors?.cep?.message}</p>
+          )}
           <Button
             type="submit"
-            disabled={isLoading || cep.length < 8}
+            disabled={isSubmitting || watch("cep")?.length < 9}
             className="relative w-full overflow-hidden font-medium rounded-lg px-5 py-3 transition-all duration-300 
-                     text-white shadow-md hover:shadow-lg focus:ring-4 focus:ring-cep-accent/50 
+                     text-white shadow-md hover:shadow-lg focus:ring-4
                      disabled:opacity-70 disabled:cursor-not-allowed"
-            style={{
-              background: "linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)",
-            }}
           >
             <span className="relative z-10 flex items-center justify-center gap-2">
-              {isLoading ? (
+              {isSubmitting ? (
                 <>
                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
                   Buscando endereço...
@@ -76,12 +81,6 @@ export default function SearchForm({ onSearch, isLoading }) {
                 </>
               )}
             </span>
-            <span
-              className="absolute inset-0 opacity-0 transition-opacity duration-300 hover:opacity-100"
-              style={{
-                background: "linear-gradient(135deg, #4F46E5 0%, #3730A3 100%)",
-              }}
-            ></span>
           </Button>
         </form>
       </CardContent>
