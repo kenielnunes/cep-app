@@ -13,9 +13,9 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 
-export default function RegisterForm({ onSwitchToLogin }) {
+export function RegisterForm({ onSwitchToLogin }) {
   const [showPassword, setShowPassword] = useState(false)
-  const { register: registerUser, loading } = useAuth()
+  const { register: registerUser } = useAuth()
   const router = useRouter()
 
   const schema = z.object({
@@ -43,7 +43,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
   const submitFormRegisterUser = (data) => {
     console.log('data', data)
     // registra
-    registerUser()
+    registerUser(data)
   }
 
   return (
