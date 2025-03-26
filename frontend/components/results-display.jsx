@@ -71,7 +71,7 @@ export default function ResultsDisplay({ data }) {
                 <span className="text-sm font-medium">IBGE</span>
               </div>
               <p className="text-gray-600 dark:text-gray-300">
-                {data.ibgeCode || "Não informado"}
+                {data.ibge || "Não informado"}
               </p>
             </div>
           </div>

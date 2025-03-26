@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SearchForm from "@/components/search-form";
 import ResultsDisplay from "@/components/results-display";
 import SearchHistory from "@/components/search-history";
@@ -8,10 +8,11 @@ import ErrorMessage from "@/components/error-message";
 import { MapPin, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import Image from "next/image";
 import { useAuth } from "@/context/auth-context";
 import { toast } from "sonner";
 import { findAddressByCep } from "@/services/api/address/find-address.by-cep";
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { findUserHistory } from "@/services/api/history/find-user-history";
 
 export default function Home() {
   const [cepData, setCepData] = useState(null);
@@ -19,6 +20,30 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [searchHistory, setSearchHistory] = useState([]);
   const { user, isAuthenticated, logout } = useAuth();
+  const queryClient = useQueryClient();
+
+  console.log('queryClient -> ', queryClient);
+
+  const { data: userHistory = [], error: historyError, isLoading: isHistoryLoading } = useQuery({
+    queryKey: ['userHistory', user?.id],
+    queryFn: async () => {
+      const response = await findUserHistory();
+
+      console.log('response -> ', response);
+      return response;
+    },
+    enabled: !!user?.id,
+    }
+  );
+
+  const mutation = useMutation( {
+    mutationFn: findUserHistory,
+    onSuccess: (data) => {
+      queryClient.setQueryData(['userHistory', user?.id], data);
+    },
+  });
+
+  console.log('mutation -> ', mutation);
 
   const searchCep = async ({ cep }) => {
     setIsLoading(true);
@@ -40,6 +65,8 @@ export default function Home() {
           if (!searchHistory.some((item) => item.cep === data.cep)) {
             setSearchHistory((prev) => [data, ...prev]);
           }
+
+          mutation.mutate();
 
           return "success";
         },
@@ -112,10 +139,11 @@ export default function Home() {
 
         <div>
           <SearchHistory
-            history={searchHistory}
+            history={userHistory}
             onClear={clearHistory}
             onSelect={searchCep}
           />
+          {historyError && <ErrorMessage message={historyError.message} />}
         </div>
       </div>
     </main>
