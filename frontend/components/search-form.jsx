@@ -9,7 +9,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-export default function SearchForm({ onSearch, isLoading }) {
+export default function SearchForm({ onSearch }) {
   const schema = z.object({
     cep: z
       .string()
@@ -64,9 +64,7 @@ export default function SearchForm({ onSearch, isLoading }) {
           <Button
             type="submit"
             disabled={isSubmitting || watch("cep")?.length < 9}
-            className="relative w-full overflow-hidden font-medium rounded-lg px-5 py-3 transition-all duration-300 
-                     text-white shadow-md hover:shadow-lg focus:ring-4
-                     disabled:opacity-70 disabled:cursor-not-allowed"
+            className="relative w-full text-white shadow-md focus:ring-4"
           >
             <span className="relative z-10 flex items-center justify-center gap-2">
               {isSubmitting ? (
