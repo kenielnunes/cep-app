@@ -1,8 +1,9 @@
 "use client";
-
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { authUser } from "@/services/api/auth/auth-user";
+import jwt from 'jsonwebtoken'
+import { registerUser } from "@/services/api/user/register-user";
 
 // Criando o contexto de autenticação
 const AuthContext = createContext({});
@@ -28,14 +29,30 @@ export function AuthProvider({ children }) {
     return auth.user;
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("cep-finder-token");
+
+    const userData = jwt.decode(token)
+
+    console.log('userData -> ', userData);
+
+    setUser(userData);
+  }, [])
+
   // Função de logout
   const logout = () => {
-    authService.logout();
+    localStorage.removeItem("cep-finder-token");
     setUser(null);
   };
 
   // Verificar se o usuário está autenticado
   const isAuthenticated = !!user;
+
+  const register = (data) => {
+    const { user } = registerUser(data.username, data.email, data.password)
+
+    return user
+  }
 
   return (
     <AuthContext.Provider
@@ -43,6 +60,7 @@ export function AuthProvider({ children }) {
         user,
         login,
         logout,
+        register,
         isAuthenticated,
       }}
     >

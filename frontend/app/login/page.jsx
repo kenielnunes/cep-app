@@ -1,7 +1,7 @@
 "use client";
 
-import LoginForm from "@/components/auth/login-form";
-import RegisterForm from "@/components/auth/register-form";
+import { LoginForm } from "@/components/auth/login-form";
+import { RegisterForm } from "@/components/auth/register-form";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
