@@ -9,40 +9,31 @@ export class UserAuthUseCase {
 
   async execute(body) {
     try {
-      const { username, password } = body;
+      const { email, password } = body;
       
-      // Validações básicas
-      if (!username || !password) {
-        return HttpException({
-          type: 'invalid_body',
-          message: 'Preencha todos os campos!',
-          statusCode: HttpStatusCode.BadRequest
-        })
-      }
-      
-      // Buscar o usuário
-      const user = await this.userRepository.findByUsername(username);
+      // Busca o usuário
+      const user = await this.userRepository.findByEmail(email);
       
       if (!user) {
-        return HttpException({
-          type: 'invalid_body',
-          message: 'Preencha todos os campos!',
+        throw new HttpException({
+          type: 'invalid_credentials',
+          message: 'Email ou senha inválidos!',
           statusCode: HttpStatusCode.Unauthorized
         })
       }
       
-      // Verificar a senha
+      // Verifica a senha
       const isMatch = await user.comparePassword(password);
 
       if (!isMatch) {
         throw new HttpException({
-          type: 'unauthorized',
-          message: 'Usuário ou senha inválidos',
+          type: 'invalid_credentials',
+          message: 'Email ou senha inválidos!',
           statusCode: HttpStatusCode.Unauthorized
         })
       }
       
-      // Gerar token JWT
+      // Gera o token JWT
       const token = jwt.sign(
         { id: user.id, username: user.username },
         process.env.JWT_SECRET,

@@ -10,13 +10,15 @@ async function loginUser(req, res) {
   try {
     const auth = await userAuthUseCase.execute(body);
 
-    console.log('auth',auth);
-    
-    res.status(200).json({ message: 'Autenticado com sucesso!', auth });
+    console.log("auth", auth);
+
+    res
+      .status(200)
+      .json({ message: "Autenticado com sucesso!", content: auth });
   } catch (error) {
-    console.log('error',error);
-    
-    res.status(error.statusCode || 500).json({ message: error.message  });
+    console.log("error", error);
+
+    res.status(error.statusCode || 500).json({ message: error.message });
   }
 }
 
