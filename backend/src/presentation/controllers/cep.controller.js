@@ -7,11 +7,13 @@ const cepUseCase = new FindAddressByCepUseCase(cepRepository);
 async function getCep(req, res) {
   const { cep } = req.params;
 
-  console.log('cep', cep);
+  console.log("cep", cep);
 
   try {
     const data = await cepUseCase.execute(cep);
-    res.json(data);
+    res.json({
+      content: data,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
