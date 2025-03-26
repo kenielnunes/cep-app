@@ -12,23 +12,23 @@ const Cep = sequelize.define('Cep', {
     allowNull: false,
     unique: true
   },
-  logradouro: {
+  street: {
     type: DataTypes.STRING,
     allowNull: true
   },
-  complemento: {
+  complement: {
     type: DataTypes.STRING,
     allowNull: true
   },
-  bairro: {
+  neighborhood: {
     type: DataTypes.STRING,
     allowNull: true
   },
-  localidade: {
+  city: {
     type: DataTypes.STRING,
     allowNull: true
   },
-  uf: {
+  state: {
     type: DataTypes.STRING,
     allowNull: true
   },

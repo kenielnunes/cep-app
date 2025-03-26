@@ -1,4 +1,3 @@
-import { sequelize } from '../../config/database.js';
 import { User } from '../../domain/models/user.js';
 
 class UserRepository {

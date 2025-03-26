@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
-import { sequelize } from '../../config/database.js';
 import { User } from './user.js';
+import { sequelize } from '../../../config/database.js';
 
 const CepQueryHistory = sequelize.define('CepQueryHistory', {
   id: {
@@ -20,11 +20,6 @@ const CepQueryHistory = sequelize.define('CepQueryHistory', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  queryDate: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: DataTypes.NOW
-  }
 }, {
   timestamps: true,
   tableName: "cep_query", 
@@ -40,6 +35,6 @@ const CepQueryHistory = sequelize.define('CepQueryHistory', {
 
 // Estabelecer relações
 User.hasMany(CepQueryHistory, { foreignKey: 'userId' });
-CepQuery.belongsTo(User, { foreignKey: 'userId' });
+CepQueryHistory.belongsTo(User, { foreignKey: 'userId' });
 
 export { CepQueryHistory }

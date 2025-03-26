@@ -1,6 +1,6 @@
 import { HttpStatusCode } from "axios";
-import { HttpException } from "../../../exceptions/http-exception.js";
 import jwt from 'jsonwebtoken'
+import { HttpException } from "../../../../exceptions/http-exception.js";
 
 export class UserAuthUseCase {
   constructor(userRepository) {
