@@ -12,7 +12,13 @@ class UserRepository {
   }
 
   async findByUsername(username) {
-    const user = await User.findOne({where: {username}})
+    const user = await User.findOne({ where: { username } })
+
+    return user
+  }
+
+  async findByEmail(email) {
+    const user = await User.findOne({ where: { email } })
 
     return user
   }
