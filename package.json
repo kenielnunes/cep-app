@@ -10,7 +10,7 @@
     "start:frontend": "cd frontend && npm run dev",
     "build:frontend": "cd frontend && npm run build",
     "preview:frontend": "cd frontend && npm run preview",
-    "dev": "concurrently \"npm run dev:backend\" \"npm run start:frontend\""
+    "dev": "concurrently \"npm run dev:backend\" \"npm run start:frontend\" "
   },
   "keywords": [],
   "author": "",
