@@ -15,7 +15,7 @@ app.use(express.json());
 // Rotas
 app.use('/user', rateLimiter(1),  userRouter);
 app.use('/auth', rateLimiter(1), authRouter);
-app.use('/cep', rateLimiter(1, 15), cepRouter);
+app.use('/cep', rateLimiter(1, 100), cepRouter);
 app.use('/cep-history', rateLimiter(1), cepHistoryRouter);
 
 const connectDB = async () => {

@@ -18,11 +18,6 @@ class CepController {
     if(req.user?.id) {
       userId = req.user.id
     }
-
-    console.log('req', req);
-    console.log("cep", cep);
-    console.log('userId getCep -> ', userId);
-
     try {
       const data = await this.cepUseCase.execute(cep, userId);
       res.json({

@@ -17,8 +17,6 @@ class CepQueryHistoryRepository {
       attributes: ['id', 'cep', 'createdAt']
     })
 
-    console.log('queries -> ', queries);
-
     return queries
   }
 }

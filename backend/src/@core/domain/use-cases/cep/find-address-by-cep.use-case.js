@@ -9,8 +9,26 @@ class FindAddressByCepUseCase {
   }
 
   async execute(cep, userId) {
-    const address = await this.cepRepository.findByCep(cep);
+    // verifica se o cep ja existe no banco de dados
+    const cepInDb = await this.cepRepository.findByCep(cep);
 
+    console.log('cepInDb -> ', cepInDb);
+
+    if (cepInDb) {
+      // Salva no histórico se o usuário estiver logado
+      if (userId) {
+        await this.saveHistoryUseCase.execute(userId, cep);
+      }
+
+      return cepInDb
+    }
+
+    // se não existir no banco de dados, busca da integração externa e cadastra no banco
+    const address = await this.cepRepository.findByCepExternalIntegration(cep);
+
+    await this.cepRepository.create(address);
+
+    // Salva no histórico se o usuário estiver logado
     if (userId) {
       await this.saveHistoryUseCase.execute(userId, cep);
     }
