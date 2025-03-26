@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin, Home, Building, Map, Navigation, Hash } from "lucide-react";
 
-export default function ResultsDisplay({ data }) {
+export function ResultsDisplay({ data }) {
   return (
     <Card className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-cep-light dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl relative">
       <CardHeader className="bg-gradient-to-r from-cep-primary to-cep-secondary pb-4">

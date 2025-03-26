@@ -13,7 +13,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAuth } from "@/context/auth-context";
 import Link from "next/link";
 
-export default function SearchHistory({ history, onClear, onSelect }) {
+export function SearchHistory({ history, onClear, onSelect }) {
 
   const { isAuthenticated } = useAuth()
 
@@ -67,7 +67,7 @@ export default function SearchHistory({ history, onClear, onSelect }) {
               <li
                 key={index}
                 className="relative p-4 rounded-lg border-2 border-transparent bg-white dark:bg-gray-800 hover:border-cep-accent transition-all duration-300 cursor-pointer shadow-sm"
-                onClick={() => onSelect(item.cep)}
+                onClick={() => onSelect({cep: item.cep})}
               >
                 <div className="flex items-center gap-2 mb-1">
                   <MapPin className="h-4 w-4 text-cep-primary" />

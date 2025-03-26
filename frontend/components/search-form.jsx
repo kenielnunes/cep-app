@@ -9,7 +9,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-export default function SearchForm({ onSearch }) {
+export function SearchForm({ onSearch }) {
   const schema = z.object({
     cep: z
       .string()
@@ -24,6 +24,7 @@ export default function SearchForm({ onSearch }) {
     register,
     formState: { errors, isSubmitting },
     watch,
+    reset,
     setValue,
   } = useForm({
     resolver: zodResolver(schema),
@@ -46,7 +47,10 @@ export default function SearchForm({ onSearch }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-6">
-        <form onSubmit={handleSubmit(onSearch)} className="space-y-2">
+        <form onSubmit={handleSubmit((data) => {
+          onSearch(data)
+          reset()
+        })} className="space-y-2">
           <div className="relative flex items-center">
             <MapPin className="absolute left-3 text-cep-primary h-5 w-5" />
             <Input

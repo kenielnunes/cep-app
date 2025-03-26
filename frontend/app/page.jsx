@@ -1,49 +1,37 @@
 "use client";
-
 import { useState } from "react";
-import SearchForm from "@/components/search-form";
-import ResultsDisplay from "@/components/results-display";
-import SearchHistory from "@/components/search-history";
-import ErrorMessage from "@/components/error-message";
+import { SearchForm } from "@/components/search-form";
+import { ResultsDisplay } from "@/components/results-display";
+import { SearchHistory } from "@/components/search-history";
+import { ErrorMessage } from "@/components/error-message";
 import { MapPin, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useAuth } from "@/context/auth-context";
 import { toast } from "sonner";
 import { findAddressByCep } from "@/services/api/address/find-address.by-cep";
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { findUserHistory } from "@/services/api/history/find-user-history";
+import { queryClient } from "@/components/layout/query-provider";
 
 export default function Home() {
   const [cepData, setCepData] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [searchHistory, setSearchHistory] = useState([]);
   const { user, isAuthenticated, logout } = useAuth();
-  const queryClient = useQueryClient();
 
-  console.log('queryClient -> ', queryClient);
 
   const { data: userHistory = [], error: historyError, isLoading: isHistoryLoading } = useQuery({
-    queryKey: ['userHistory', user?.id],
-    queryFn: async () => {
-      const response = await findUserHistory();
+      queryKey: ['userHistory', user?.id],
+      queryFn: async () => {
+        const response = await findUserHistory();
 
-      console.log('response -> ', response);
-      return response;
-    },
-    enabled: !!user?.id,
+        console.log('response -> ', response);
+        return response;
+      },
+      enabled: !!user?.id,
     }
   );
-
-  const mutation = useMutation( {
-    mutationFn: findUserHistory,
-    onSuccess: (data) => {
-      queryClient.setQueryData(['userHistory', user?.id], data);
-    },
-  });
-
-  console.log('mutation -> ', mutation);
 
   const searchCep = async ({ cep }) => {
     setIsLoading(true);
@@ -52,23 +40,22 @@ export default function Home() {
     console.log("cep", cep);
 
     try {
-      toast.promise(findAddressByCep(cep), {
+      const cleanedCep = cep.replace(/\D/g, ''); // Remove qualquer caractere que não seja dígito
+      toast.promise(findAddressByCep(cleanedCep), {
         error: (err) => {
-          console.log("err", err);
-          return "erro";
+          return err.response.data.message;
         },
-        loading: "carregando",
+        loading: "Buscando cep...",
         success: (data) => {
           console.log("data", data);
           setCepData(data);
 
-          if (!searchHistory.some((item) => item.cep === data.cep)) {
-            setSearchHistory((prev) => [data, ...prev]);
+          // invalida a query do historico para atualizar os dados apenas se estiver logado
+          if(isAuthenticated) {
+            queryClient.invalidateQueries({queryKey: ['userHistory', user?.id]})
           }
 
-          mutation.mutate();
-
-          return "success";
+          return "Cep encontrado";
         },
       });
     } catch (err) {
@@ -78,7 +65,6 @@ export default function Home() {
   };
 
   const clearHistory = () => {
-    setSearchHistory([]);
   };
 
   return (
@@ -137,7 +123,7 @@ export default function Home() {
           {cepData && !error && <ResultsDisplay data={cepData} />}
         </div>
 
-        <div>
+        <div className="space-y-4">
           <SearchHistory
             history={userHistory}
             onClear={clearHistory}

@@ -5,8 +5,9 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 
+export const queryClient = new QueryClient()
+
 export const LayoutQueryProvider = ({ children }) => {
-  const queryClient = new QueryClient()
 
     return (
         <QueryClientProvider client={queryClient}>

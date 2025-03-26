@@ -1,7 +1,7 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 
-export default function ErrorMessage({ message }) {
+export function ErrorMessage({ message }) {
   return (
     <Alert variant="destructive" className="border-2 border-destructive/20 bg-destructive/10">
       <AlertCircle className="h-5 w-5 text-destructive" />
