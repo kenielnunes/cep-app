@@ -12,15 +12,19 @@ export const metadata = {
   title: "Localizador de CEP",
   description:
     "Encontre informações detalhadas sobre qualquer endereço no Brasil utilizando o código postal",
-  generator: "v0.dev",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body className={outfit.variable}>{children}</body>
+      <body className={outfit.variable}>
+        <AuthProvider>{children}</AuthProvider>
+        <Toaster />
+      </body>
     </html>
   );
 }
 
 import "./globals.css";
+import { AuthProvider } from "@/context/auth-context";
+import { Toaster } from "sonner";
