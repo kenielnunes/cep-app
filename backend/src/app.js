@@ -1,12 +1,11 @@
 import express from 'express'
 import cors from 'cors'
 import { sequelize } from './config/database.js' 
-import { getCep } from './presentation/controllers/cep.controller.js';
-import { createUser } from './presentation/controllers/user.controller.js';
-import { loginUser } from './presentation/controllers/auth.controller.js';
-import { authMiddleware } from './middlewares/auth.middleware.js';
-import { validateDtoMiddleware } from './middlewares/validate-dto.middleware.js';
-import { AuthUserSchema } from './validations/auth/auth-user.schema.js';
+import { userRouter } from './routes/user.routes.js';
+import { authRouter } from './routes/auth.routes.js';
+import { cepRouter } from './routes/cep.routes.js';
+import { cepHistoryRouter} from './routes/cep-history.routes.js'
+import { rateLimiter } from './middlewares/rate-limiter.middleware.js';
 
 const app = express();
 
@@ -14,9 +13,10 @@ app.use(cors());
 app.use(express.json());
 
 // Rotas
-app.post('/user', createUser);
-app.post('/auth',validateDtoMiddleware(AuthUserSchema), loginUser);
-app.get('/cep/:cep', authMiddleware, getCep);
+app.use('/user', rateLimiter(1),  userRouter);
+app.use('/auth', rateLimiter(1), authRouter);
+app.use('/cep', rateLimiter(1, 15), cepRouter);
+app.use('/cep-history', rateLimiter(1), cepHistoryRouter);
 
 const connectDB = async () => {
   try {
@@ -29,7 +29,5 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
-
-
 
 export { app, connectDB };

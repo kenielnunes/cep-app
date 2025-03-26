@@ -1,10 +1,7 @@
 import {rateLimit} from 'express-rate-limit'
 
-export function rateLimiterMiddleware() {
-  rateLimit({
-    windowMs: 60 * 1000, // 1 minuto
-    max: 2, // limita o ip a 10 requisições no tempo determinado
-    message: 'Muitas requisições, tente novamente mais tarde.',
-  });
-} 
-
+export const rateLimiter = (durationInMinutes = 1, max = 10) => rateLimit({
+  windowMs: durationInMinutes * 60 * 1000, // tempo em milissegundos (padrão 1 min)
+  max, // número máximo de requisições permitidas
+  message: 'Muitas requisições, tente novamente mais tarde.',
+});
