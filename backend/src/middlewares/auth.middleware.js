@@ -15,16 +15,16 @@ export const authMiddleware = async (req, res, next) => {
     // Pega apenas o valor do token, sem o 'Bearer'
     const token = authHeader.split(' ')[1];
 
-    console.log('token', token);
     console.log('decoded', jwt.decode(token));
-    
     
     // Verificar token
     const decoded = jwt.verify(token, env.JWT_SECRET);
-
-    console.log('decoded', decoded);
     
+    // Adiciona dados do usuário ao objeto req
+    req.user = decoded;
+
     next();
+
   } catch (error) {
 
     console.log('error', error);
