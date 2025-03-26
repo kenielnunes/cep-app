@@ -20,16 +20,16 @@ Bem-vindo ao **CEP App**! Este é um aplicativo incrível que permite que você 
 ## 📸 Capturas de Tela
 
 ### Tela de Login
-![Tela de Login](link-para-sua-captura-de-tela-login)
+![Tela de Login](./frontend/public/login.png)
 
 ### Tela de Registro
-![Tela de Registro](link-para-sua-captura-de-tela-registro)
+![Tela de Registro](./frontend/public/register.png)
 
 ### Tela de Consulta
-![Tela de Consulta](link-para-sua-captura-de-tela-consulta)
+![Tela de Consulta](./frontend/public/home.png)
 
 ### Histórico de Consultas
-![Histórico de Consultas](link-para-sua-captura-de-tela-historico)
+![Histórico de Consultas](./frontend/public/consultation-cep.png)
 
 ## 📦 Como Executar o Projeto
 
