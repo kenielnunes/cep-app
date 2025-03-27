@@ -13,6 +13,7 @@ import { findAddressByCep } from "@/services/api/address/find-address.by-cep";
 import { useQuery } from '@tanstack/react-query';
 import { findUserHistory } from "@/services/api/history/find-user-history";
 import { queryClient } from "@/components/layout/query-provider";
+import { clearUserHistory } from "@/services/api/history/clear-user-history";
 
 export default function Home() {
   const [cepData, setCepData] = useState(null);
@@ -65,6 +66,20 @@ export default function Home() {
   };
 
   const clearHistory = () => {
+    toast.promise(clearUserHistory, {
+      error: (err) => {
+        return err.response.data.message;
+      },
+      loading: "Limpando historico de consultas...",
+      success: (data) => {
+        // invalida a query do historico para atualizar os dados apenas se estiver logado
+        if(isAuthenticated) {
+          queryClient.invalidateQueries({queryKey: ['userHistory', user?.id]})
+        }
+
+        return data.message;
+      },
+    }) 
   };
 
   return (

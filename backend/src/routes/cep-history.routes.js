@@ -11,9 +11,9 @@ authMiddleware,
 (req, res) =>  cepHistoryController.getUserHistory(req, res));
 
 // Rota para salvar uma nova consulta de CEP
-cepHistoryRouter.post('/', (req, res) => cepHistoryController.saveCepSearch(req, res));
+cepHistoryRouter.post('/',authMiddleware, (req, res) => cepHistoryController.saveCepSearch(req, res));
 
 // Rota para limpar o histórico
-cepHistoryRouter.delete('/', (req, res) =>  cepHistoryController.clearUserHistory(req, res));
+cepHistoryRouter.delete('/', authMiddleware, (req, res) =>  cepHistoryController.clearUserHistory(req, res));
 
 export { cepHistoryRouter };
