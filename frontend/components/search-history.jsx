@@ -37,16 +37,18 @@ export function SearchHistory({ history, onClear, onSelect }) {
           </p>
 
           {!isAuthenticated && (
-            <div className="mt-6 text-center">
-              <p className="text-sm text-cep-primary mb-2">Faça login para salvar seu histórico</p>
-              <Link href="/login">
-                <Button variant="outline" className="border-cep-primary text-cep-primary hover:bg-cep-primary/10">
-                  <LogIn className="h-4 w-4 mr-2" />
-                  Entrar
-                </Button>
-              </Link>
-            </div>
-          )}
+          <div className="my-4 p-3 bg-cep-light/30 rounded-lg border border-cep-light">
+            <p className="text-sm text-gray-600 flex items-center">
+              <LogIn className="h-4 w-4 text-cep-primary mr-2" />
+              <span>
+                <Link href="/login" className="text-cep-primary font-medium hover:underline">
+                  Faça login
+                </Link>{" "}
+                para salvar seu histórico de consultas
+              </span>
+            </p>
+          </div>
+        )}
         </CardContent>
       </Card>
     )
