@@ -1,17 +1,23 @@
 import axios from 'axios';
 import { env } from '../../../config/env.config.js';
 import { Cep } from '../../domain/models/cep.js';
+import { NotFoundException } from '../../../exceptions/not-found-exception.js';
+import { InternalServerErrorException } from '../../../exceptions/internal-server-error-exception.js';
 
 class CepRepository {
   async findByCepExternalIntegration(cep) {
     try {
-      const response = await axios.get(`${env.CEP_EXTERNAL_URL_API}/${cep}/json/`);
+        const response = await axios.get(`${env.CEP_EXTERNAL_URL_API}/${cep}/json/`);
+        const address = response.data;
 
-      const address = response.data
+        // Verifica se a resposta é um objeto e se contém os campos esperados
+        if (typeof address !== 'object' || !address.logradouro || !address.bairro || !address.localidade) {
+            throw new NotFoundException("CEP inválido ou não encontrado");
+        }
 
-      return address
+        return address;
     } catch (error) {
-      throw error
+        throw new InternalServerErrorException("CEP inválido.");
     }
   }
 
