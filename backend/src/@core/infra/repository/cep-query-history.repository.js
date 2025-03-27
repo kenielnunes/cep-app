@@ -19,6 +19,16 @@ class CepQueryHistoryRepository {
 
     return queries
   }
+
+  async clearUserCepQueryHistory(userId) {
+    console.log('Clearing history for userId:', userId);
+    
+    const result = await CepQueryHistory.destroy({
+      where: { userId }
+    });
+
+    return result;
+  }
 }
 
 export { CepQueryHistoryRepository };

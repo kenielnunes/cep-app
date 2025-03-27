@@ -1,6 +1,5 @@
 import express from 'express';
 import { CepHistoryController } from '../@core/presentation/controllers/cep-history.controller.js';
-import { validateDtoMiddleware } from '../middlewares/validate-dto.middleware.js';
 import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const cepHistoryRouter = express.Router();
@@ -15,6 +14,6 @@ authMiddleware,
 cepHistoryRouter.post('/', (req, res) => cepHistoryController.saveCepSearch(req, res));
 
 // Rota para limpar o histórico
-cepHistoryRouter.delete('/', (req, res) =>  cepHistoryController.clearHistory(req, res));
+cepHistoryRouter.delete('/', (req, res) =>  cepHistoryController.clearUserHistory(req, res));
 
 export { cepHistoryRouter };
