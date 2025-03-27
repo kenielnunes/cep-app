@@ -48,8 +48,8 @@ export function AuthProvider({ children }) {
   // Verificar se o usuário está autenticado
   const isAuthenticated = !!user;
 
-  const register = (data) => {
-    const { user } = registerUser(data.username, data.email, data.password)
+  const register = async (data) => {
+    const { user } = await registerUser(data.username, data.email, data.password)
 
     return user
   }
