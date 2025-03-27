@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {  Eye, EyeOff, Lock} from "lucide-react";
+import {  Eye, EyeOff, Lock, Mail} from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -86,7 +86,10 @@ export function LoginForm({ onSwitchToRegister }) {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="seu@email.com" {...field} />
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
+                      <Input placeholder="seu@email.com" className="pl-10" {...field} />
+                    </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -106,7 +109,7 @@ export function LoginForm({ onSwitchToRegister }) {
                           id="password"
                           type={showPassword ? "text" : "password"}
                           placeholder="••••••••"
-                          className="pl-10 "
+                          className="pl-10"
                         />
                         <button
                           type="button"
