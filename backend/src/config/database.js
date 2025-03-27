@@ -2,7 +2,6 @@ import { Sequelize } from 'sequelize'
 import dotenv from "dotenv";
 
 dotenv.config({ path: ['../.env', '../../../.env'] })
-console.log('process.env',process.env)
 const sequelize = new Sequelize(
   process.env.POSTGRES_NAME,
   process.env.POSTGRES_USER,
