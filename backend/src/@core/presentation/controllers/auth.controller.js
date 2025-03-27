@@ -3,8 +3,7 @@ import UserRepository from "../../infra/repository/user.repository.js";
 
 class AuthController {
   constructor() {
-    this.userRepository = new UserRepository();
-    this.userAuthUseCase = new UserAuthUseCase(this.userRepository);
+    this.userAuthUseCase = new UserAuthUseCase();
   }
 
   async login(req, res) {

@@ -1,17 +1,11 @@
 import { FindAddressByCepUseCase } from "../../domain/use-cases/cep/find-address-by-cep.use-case.js";
-import CepRepository from "../../infra/repository/cep.repository.js";
-import { CreateCepQueryHistoryUseCase } from "../../domain/use-cases/cep-query-history/create-cep-query-history.use-case.js";
-import { CepQueryHistoryRepository } from "../../infra/repository/cep-query-history.repository.js";
 
 class CepController {
   constructor() {
-    this.cepRepository = new CepRepository();
-    this.cepQueryHistoryRepository = new CepQueryHistoryRepository();
-    this.cepUseCase = new FindAddressByCepUseCase(this.cepRepository);
-    this.saveHistoryUseCase = new CreateCepQueryHistoryUseCase(this.cepQueryHistoryRepository);
+    this.cepUseCase = new FindAddressByCepUseCase();
   }
 
-  async getCep(req, res) {
+  async getCep(req, res, next) {
     const { cep } = req.params;
     let userId = null;
 
@@ -24,7 +18,7 @@ class CepController {
         content: data,
       });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      next(error); // Passa o erro para o middleware de tratamento
     }
   }
 }

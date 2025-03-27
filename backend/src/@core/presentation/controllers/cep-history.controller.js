@@ -1,10 +1,10 @@
+import { ClearUserCepQueryHistoryUseCase } from "../../domain/use-cases/cep-query-history/clear-user-cep-query-history.use-case.js";
 import { FindUserCepQueryHistoryUseCase } from "../../domain/use-cases/cep-query-history/find-user-cep-query-history.use-case.js";
-import { CepQueryHistoryRepository } from "../../infra/repository/cep-query-history.repository.js";
 
 class CepHistoryController {
   constructor() {
-    this.cepHistoryRepository = new CepQueryHistoryRepository()
-    this.findUserCepQueryHistoryUseCase = new FindUserCepQueryHistoryUseCase(this.cepHistoryRepository);
+    this.findUserCepQueryHistoryUseCase = new FindUserCepQueryHistoryUseCase();
+    this.clearUserCepQueryHistoryUseCase = new ClearUserCepQueryHistoryUseCase();
   }
 
   async getUserHistory(req, res) {
@@ -19,6 +19,19 @@ class CepHistoryController {
       return res.status(200).json({ content: result });
     } catch (error) {
       return res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+  }
+
+  async clearUserHistory(req, res) {
+    try {
+      const userId = req.user.id;
+
+      // Limpa o histórico de busca do usuário pelo id do jwt
+      await this.clearUserCepQueryHistoryUseCase.execute(userId);
+
+      return res.status(200).json({ message: 'Histórico de consultas limpo com sucesso.' });
+    } catch (error) {
+      throw error
     }
   }
 }

@@ -1,9 +1,8 @@
-import { HttpStatusCode } from "axios";
-import { HttpException } from "../../../../exceptions/http-exception.js";
+import UserRepository from "../../../infra/repository/user.repository.js";
 
 class CreateUserUseCase {
-  constructor(userRepository) {
-    this.userRepository = userRepository;
+  constructor() {
+    this.userRepository = new UserRepository();
   }
 
   async execute(user) {

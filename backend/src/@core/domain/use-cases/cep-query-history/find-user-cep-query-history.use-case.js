@@ -1,6 +1,8 @@
+import { CepQueryHistoryRepository } from "../../../infra/repository/cep-query-history.repository.js";
+
 class FindUserCepQueryHistoryUseCase {
-  constructor(cepQueryHistoryRepository) {
-    this.cepQueryHistoryRepository = cepQueryHistoryRepository;
+  constructor() {
+    this.cepQueryHistoryRepository = new CepQueryHistoryRepository();
   }
 
   async execute(userId) {

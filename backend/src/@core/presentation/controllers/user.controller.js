@@ -1,10 +1,8 @@
 import { CreateUserUseCase } from "../../domain/use-cases/user/create-user.use-case.js";
-import UserRepository from "../../infra/repository/user.repository.js";
 
 class UserController {
   constructor() {
-    this.userRepository = new UserRepository();
-    this.createUserUseCase = new CreateUserUseCase(this.userRepository);
+    this.createUserUseCase = new CreateUserUseCase();
   }
 
   async create(req, res) {

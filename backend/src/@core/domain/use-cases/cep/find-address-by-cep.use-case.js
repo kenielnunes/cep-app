@@ -1,23 +1,22 @@
+import { CustomException } from "../../../../exceptions/custom-exception.js";
+import { NotFoundException } from "../../../../exceptions/not-found-exception.js";
 import { CepQueryHistoryRepository } from "../../../infra/repository/cep-query-history.repository.js";
-import { CreateCepQueryHistoryUseCase } from "../cep-query-history/create-cep-query-history.use-case.js";
+import CepRepository from "../../../infra/repository/cep.repository.js";
 
 class FindAddressByCepUseCase {
-  constructor(cepRepository) {
-    this.cepRepository = cepRepository;
+  constructor() {
+    this.cepRepository = new CepRepository();
     this.cepQueryHistoryRepository = new CepQueryHistoryRepository();
-    this.saveHistoryUseCase = new CreateCepQueryHistoryUseCase(this.cepQueryHistoryRepository);
   }
 
   async execute(cep, userId) {
     // verifica se o cep ja existe no banco de dados
     const cepInDb = await this.cepRepository.findByCep(cep);
 
-    console.log('cepInDb -> ', cepInDb);
-
     if (cepInDb) {
       // Salva no histórico se o usuário estiver logado
       if (userId) {
-        await this.saveHistoryUseCase.execute(userId, cep);
+        await this.cepQueryHistoryRepository.create(userId, cep);
       }
 
       return cepInDb
@@ -26,11 +25,21 @@ class FindAddressByCepUseCase {
     // se não existir no banco de dados, busca da integração externa e cadastra no banco
     const address = await this.cepRepository.findByCepExternalIntegration(cep);
 
+    console.log('cepInDb -> ', cepInDb);
+    console.log('address -> ', address);
+
+    if(!cepInDb && !address) {
+      console.log("Erro instanciado:", "Instância de CustomException?", error instanceof CustomException);
+      throw new NotFoundException("CEP não encontrado");
+    }
+    
+    console.log('chegou aq');
+
     await this.cepRepository.create(address);
 
     // Salva no histórico se o usuário estiver logado
     if (userId) {
-      await this.saveHistoryUseCase.execute(userId, cep);
+      await this.cepQueryHistoryRepository.create(userId, cep);
     }
 
     return this.mapper(address);
