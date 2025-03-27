@@ -57,6 +57,8 @@ Bem-vindo ao **CEP App**! Um aplicativo para consultar endereços a partir de CE
    POSTGRES_USER=seu_usuario
    POSTGRES_PASSWORD=sua_senha
    POSTGRES_DB=cep_db
+   POSTGRES_PORT=5432
+   POSTGRES_HOST=localhost
    JWT_SECRET=sua_chave_secreta
    API_URL=sua_url_de_api
    CEP_EXTERNAL_URL_API=api_externa_via_cep
@@ -69,21 +71,25 @@ Bem-vindo ao **CEP App**! Um aplicativo para consultar endereços a partir de CE
    docker-compose up -d
    ```
 
-5. Instale as dependências do backend:
+5. Instale as dependências e execute o backend:
    ```bash
    cd backend
    npm install
+   npm run dev
    ```
 
-6. Instale as dependências do frontend:
+6. Abra outro terminal, instale as dependências e execute o frontend:
    ```bash
-   cd ../frontend
+   cd frontend
    npm install
    ```
 
-7. Inicie o aplicativo:
+7. Caso queira rodar ambos com um comando, instale o pacote `concurrently` na raíz do projeto e inicie o aplicativo:
+  ```bash 
+  npm install concurrently --save-dev
+  ``` 
+
    ```bash
-   cd ..
    npm run dev
    ```
 
