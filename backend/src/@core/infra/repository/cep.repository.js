@@ -22,7 +22,6 @@ class CepRepository {
   }
 
   async findByCep(cep) {
-    console.log('cep -> ', cep);
     const address = await Cep.findOne({
         where: { cep },
         attributes: { exclude: [] } // Inclui todos os atributos

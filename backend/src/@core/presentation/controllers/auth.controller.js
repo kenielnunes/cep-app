@@ -16,7 +16,6 @@ class AuthController {
         .status(200)
         .json({ message: "Autenticado com sucesso!", content: auth });
     } catch (error) {
-      console.log("error", error);
       res.status(error.statusCode || 500).json({ message: error.message });
     }
   }

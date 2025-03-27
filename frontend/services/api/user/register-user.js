@@ -8,7 +8,6 @@ export const registerUser = async (username, email, password) => {
   });
 
   const { content: user } = response.data;
-  console.log("user registrado ->", user);
 
   return {
     user,

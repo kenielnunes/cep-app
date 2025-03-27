@@ -17,7 +17,6 @@ export function SearchHistory({ history, onClear, onSelect }) {
 
   const { isAuthenticated } = useAuth()
 
-  console.log('history -> ', history);
   if (history.length === 0) {
     return (
       <Card className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-cep-light dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl h-full">

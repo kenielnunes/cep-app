@@ -10,7 +10,6 @@ const AuthContext = createContext({});
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  console.log("user", user);
   const { push } = useRouter();
 
   // Função de login
@@ -33,8 +32,6 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem("cep-finder-token");
 
     const userData = jwt.decode(token)
-
-    console.log('userData -> ', userData);
 
     setUser(userData);
   }, [])

@@ -25,16 +25,6 @@ class FindAddressByCepUseCase {
     // se não existir no banco de dados, busca da integração externa e cadastra no banco
     const address = await this.cepRepository.findByCepExternalIntegration(cep);
 
-    console.log('cepInDb -> ', cepInDb);
-    console.log('address -> ', address);
-
-    if(!cepInDb && !address) {
-      console.log("Erro instanciado:", "Instância de CustomException?", error instanceof CustomException);
-      throw new NotFoundException("CEP não encontrado");
-    }
-    
-    console.log('chegou aq');
-
     await this.cepRepository.create(address);
 
     // Salva no histórico se o usuário estiver logado

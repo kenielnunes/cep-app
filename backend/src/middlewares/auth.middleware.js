@@ -15,7 +15,6 @@ export const authMiddleware = async (req, res, next) => {
     // Pega apenas o valor do token, sem o 'Bearer'
     const token = authHeader.split(' ')[1];
 
-    console.log('decoded', jwt.decode(token));
     
     // Verificar token
     const decoded = jwt.verify(token, env.JWT_SECRET);
@@ -27,7 +26,6 @@ export const authMiddleware = async (req, res, next) => {
 
   } catch (error) {
 
-    console.log('error', error);
     
     if (error.name === 'TokenExpiredError') {
       return res.status(401).json({

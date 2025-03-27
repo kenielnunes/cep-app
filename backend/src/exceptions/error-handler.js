@@ -1,8 +1,6 @@
 import { CustomException } from "./custom-exception.js";
 
 const errorHandler = (err, req, res, next) => {
-  console.log('err instanceof -> ', (err instanceof CustomException));
-
   if (err instanceof CustomException) {
     return res.status(err.statusCode).json({
       message: err.message,

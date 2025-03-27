@@ -13,7 +13,6 @@ class UserController {
 
       res.status(201).json({ message: 'Usuário criado com sucesso!', user });
     } catch (error) {
-      console.log('error', error);
       res.status(error.statusCode || 500).json({ message: error.message });
     }
   }

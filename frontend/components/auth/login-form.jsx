@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {  Lock} from "lucide-react";
+import {  Eye, EyeOff, Lock} from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -51,13 +51,11 @@ export function LoginForm({ onSwitchToRegister }) {
 
   const auth = async (data) => {
     try {
-      console.log("data", data);
 
       toast.promise(login(data.email, data.password), {
         loading: "Autenticando...",
         success: "Autenticado com sucesso!",
         error: (error) => {
-          console.log("error", error);
           return error?.response?.data?.message || "Erro";
         },
       });
@@ -110,7 +108,7 @@ export function LoginForm({ onSwitchToRegister }) {
                           placeholder="••••••••"
                           className="pl-10 "
                         />
-                        {/* <button
+                        <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-cep-primary transition-colors"
@@ -120,7 +118,7 @@ export function LoginForm({ onSwitchToRegister }) {
                           ) : (
                             <Eye className="h-4 w-4" />
                           )}
-                        </button> */}
+                        </button>
                       </div>
                     </FormControl>
                     <FormMessage />

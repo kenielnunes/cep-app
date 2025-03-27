@@ -27,7 +27,6 @@ export default function Home() {
       queryFn: async () => {
         const response = await findUserHistory();
 
-        console.log('response -> ', response);
         return response;
       },
       enabled: !!user?.id,
@@ -38,7 +37,6 @@ export default function Home() {
     setIsLoading(true);
     setError(null);
 
-    console.log("cep", cep);
 
     try {
       const cleanedCep = cep.replace(/\D/g, ''); // Remove qualquer caractere que não seja dígito
@@ -48,7 +46,6 @@ export default function Home() {
         },
         loading: "Buscando cep...",
         success: (data) => {
-          console.log("data", data);
           setCepData(data);
 
           // invalida a query do historico para atualizar os dados apenas se estiver logado
@@ -97,7 +94,7 @@ export default function Home() {
               variant="ghost"
               size="icon"
               onClick={logout}
-              className="text-gray-500 hover:text-cep-primary"
+              className="text-gray-500 hover:text-white"
               aria-label="Sair"
             >
               <LogOut className="h-5 w-5" />

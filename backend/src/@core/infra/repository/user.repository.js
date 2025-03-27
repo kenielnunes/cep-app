@@ -2,7 +2,6 @@ import { User } from '../../domain/models/user.js';
 
 class UserRepository {
   async create(user) {
-    console.log('user repo', user);
 
     const created = await User.create(user)
 

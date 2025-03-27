@@ -2,7 +2,6 @@ import { CepQueryHistory } from '../../domain/models/cep-query-history.js';
 
 class CepQueryHistoryRepository {
   async create(userId, cep) {
-    console.log('queryHistory', userId, cep);
 
     const created = await CepQueryHistory.create({
       userId, cep
@@ -21,7 +20,6 @@ class CepQueryHistoryRepository {
   }
 
   async clearUserCepQueryHistory(userId) {
-    console.log('Clearing history for userId:', userId);
     
     const result = await CepQueryHistory.destroy({
       where: { userId }
