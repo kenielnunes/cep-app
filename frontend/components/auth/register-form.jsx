@@ -6,12 +6,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Eye, EyeOff, Lock, Mail, AlertCircle, User } from "lucide-react"
+import { Eye, EyeOff, Lock, Mail, User } from "lucide-react"
 import { useAuth } from "@/context/auth-context"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
+import { toast } from "sonner"
 
 export function RegisterForm({ onSwitchToLogin }) {
   const [showPassword, setShowPassword] = useState(false)
@@ -34,8 +34,6 @@ export function RegisterForm({ onSwitchToLogin }) {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-    watch,
-    setValue,
   } = useForm({
     resolver: zodResolver(schema),
   });
@@ -43,7 +41,14 @@ export function RegisterForm({ onSwitchToLogin }) {
   const submitFormRegisterUser = (data) => {
     console.log('data', data)
     // registra
-    registerUser(data)
+    toast.promise(registerUser(data), {
+      loading: "Cadastrando...",
+      success: "Cadastrado com sucesso!",
+      error: (error) => {
+        console.log("error", error);
+        return error?.response?.data?.message || "Erro";
+      },
+    });
   }
 
   return (
