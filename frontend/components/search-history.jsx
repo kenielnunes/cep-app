@@ -61,6 +61,12 @@ export function SearchHistory({ history, onClear, onSelect }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-6">
+        <div className="mb-4 p-3 bg-cep-primary/5 rounded-lg border border-cep-primary/20">
+          <p className="text-sm text-gray-700 dark:text-gray-300 flex items-center">
+            <MapPin className="h-4 w-4 text-cep-primary mr-2 flex-shrink-0" />
+            <span>Clique em qualquer endereço abaixo para visualizar novamente os detalhes</span>
+          </p>
+        </div>
         <ScrollArea className="h-[350px] pr-4">
           <ul className="space-y-3">
             {history?.map((item, index) => (
