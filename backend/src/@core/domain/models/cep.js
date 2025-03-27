@@ -15,14 +15,14 @@ const Cep = sequelize.define('Cep', {
     },
     set(value) {
       // Transformar o valor antes de salvar
-      const transformedValue = value.replace(/\D/g, ''); // Remove caracteres não numéricos
+      const transformedValue = value?.replace(/\D/g, ''); // Remove caracteres não numéricos
       this.setDataValue('cep', transformedValue);
     },
     validate: {
       is: {
         args: [/^\d{8}$/],
         msg: 'O CEP deve ser um número de 8 dígitos, sem máscara.'
-      }
+      },
     }
   },
   street: {
