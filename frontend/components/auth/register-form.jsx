@@ -16,7 +16,7 @@ import { toast } from "sonner"
 export function RegisterForm({ onSwitchToLogin }) {
   const [showPassword, setShowPassword] = useState(false)
   const { register: registerUser } = useAuth()
-  const router = useRouter()
+  const { push } = useRouter()
 
   const schema = z.object({
     username: z
@@ -39,13 +39,14 @@ export function RegisterForm({ onSwitchToLogin }) {
   });
 
   const submitFormRegisterUser = (data) => {
-    console.log('data', data)
     // registra
     toast.promise(registerUser(data), {
       loading: "Cadastrando...",
-      success: "Cadastrado com sucesso!",
+      success: () => {
+        onSwitchToLogin()
+        return "Cadastrado com sucesso!"
+      } ,
       error: (error) => {
-        console.log("error", error);
         return error?.response?.data?.message || "Erro";
       },
     });
