@@ -14,7 +14,13 @@ const User = sequelize.define('User', {
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    // validate: {
+    //   len: {
+    //     args: [6],
+    //     msg: 'A senha deve ter no mínimo 6 caracteres.'
+    //   }
+    // }
   },
   email: {
     type: DataTypes.STRING,
@@ -45,7 +51,6 @@ const User = sequelize.define('User', {
 
 // Método para comparar senha
 User.prototype.comparePassword = function(password) {
-  console.log('password', password);
   
   return bcrypt.compareSync(password, this.password);
 };
