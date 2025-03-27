@@ -1,13 +1,13 @@
 # 📦 CEP App
 
-Bem-vindo ao **CEP App**! Este é um aplicativo incrível que permite que você consulte endereços a partir de CEPs brasileiros de forma rápida e fácil. Com uma interface amigável e funcionalidades robustas, o CEP App é a solução perfeita para quem precisa acessar informações de endereços de maneira eficiente.
+Bem-vindo ao **CEP App**! Um aplicativo para consultar endereços a partir de CEPs brasileiros de forma rápida e fácil.
 
 ## 🚀 Funcionalidades
 
-- **Consulta de Endereços**: Insira um CEP e obtenha informações detalhadas sobre o endereço correspondente.
-- **Histórico de Consultas**: Acompanhe todos os CEPs que você já consultou, facilitando o acesso a informações anteriores.
-- **Autenticação de Usuário**: Crie uma conta e faça login para acessar funcionalidades exclusivas, como o histórico de consultas.
-- **Interface Intuitiva**: Navegação fácil e design responsivo para uma experiência de usuário agradável.
+- **Consulta de Endereços**: Insira um CEP e obtenha informações detalhadas.
+- **Histórico de Consultas**: Acompanhe todos os CEPs consultados.
+- **Autenticação de Usuário**: Crie uma conta e faça login.
+- **Interface Intuitiva**: Navegação fácil e design responsivo.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -15,7 +15,7 @@ Bem-vindo ao **CEP App**! Este é um aplicativo incrível que permite que você 
 - **Backend**: Node.js, Express, Sequelize
 - **Banco de Dados**: PostgreSQL
 - **Autenticação**: JSON Web Tokens (JWT)
-- **Docker**: Para facilitar a configuração e execução do ambiente
+- **Docker**: Para configuração e execução do ambiente
 
 ## 📸 Capturas de Tela
 
@@ -61,6 +61,7 @@ Bem-vindo ao **CEP App**! Este é um aplicativo incrível que permite que você 
    API_URL=sua_url_de_api
    CEP_EXTERNAL_URL_API=api_externa_via_cep
    HASH_CRYPTO_SECRET=segredo_para_crypto
+   PORT=porta_backend
    ```
 
 4. Inicie os serviços com Docker Compose:
@@ -68,45 +69,38 @@ Bem-vindo ao **CEP App**! Este é um aplicativo incrível que permite que você 
    docker-compose up -d
    ```
 
-5. Navegue até o diretório do backend e instale as dependências:
+5. Instale as dependências do backend:
    ```bash
    cd backend
    npm install
    ```
 
-
-6. Inicie o servidor:
-   ```bash
-   npm start
-   ```
-
-7. Navegue até o diretório do frontend e instale as dependências:
+6. Instale as dependências do frontend:
    ```bash
    cd ../frontend
    npm install
    ```
 
-8. Inicie o aplicativo frontend:
+7. Inicie o aplicativo:
    ```bash
+   cd ..
    npm run dev
    ```
 
-9. Acesse o aplicativo em `http://localhost:3000`.
+8. Acesse o front-end em `http://localhost:3000`.
+
+9. Acesse o back-end em `http://localhost:3001` ou na porta informada na `.env`.
 
 ## 🤝 Contribuições
 
-Contribuições são bem-vindas! Se você deseja contribuir, siga estas etapas:
+Contribuições são bem-vindas! Siga estas etapas:
 
 1. Fork o projeto.
-2. Crie uma nova branch (`git checkout -b feature/nova-funcionalidade`).
-3. Faça suas alterações e commit (`git commit -m 'Adiciona nova funcionalidade'`).
-4. Envie para o branch original (`git push origin feature/nova-funcionalidade`).
+2. Crie uma nova branch.
+3. Faça suas alterações e commit.
+4. Envie para o branch original.
 5. Crie um novo Pull Request.
-
-## 📄 Licença
-
-Este projeto está licenciado sob a MIT License - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
-Esperamos que você goste do **CEP App**! Se você tiver alguma dúvida ou sugestão, sinta-se à vontade para entrar em contato.
+Esperamos que você goste do **CEP App**! Dúvidas ou sugestões, entre em contato.
