@@ -11,9 +11,6 @@ const User = sequelize.define('User', {
   username: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: {
-      msg: 'Já existe um usuario com esse nome.',
-    }
   },
   password: {
     type: DataTypes.STRING,
