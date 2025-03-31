@@ -14,13 +14,13 @@ export function AuthProvider({ children }) {
 
   // Função de login
   const login = async (email, password) => {
-    // Chamar o serviço de autenticação
+    // Chama o serviço de autenticação
     const { auth } = await authUser(email, password);
 
-    // Armazenar o token JWT
+    // Armazena o token JWT
     localStorage.setItem("cep-finder-token", auth.token);
 
-    // Atualizar o estado com os dados do usuário
+    // Atualiza o estado com os dados do usuário
     setUser(auth.user);
 
     push("/");
@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
-  // Verificar se o usuário está autenticado
+  // Verifica se o usuário está autenticado
   const isAuthenticated = !!user;
 
   const register = async (data) => {

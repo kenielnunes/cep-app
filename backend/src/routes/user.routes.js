@@ -6,6 +6,7 @@ import { CreateUserSchema } from '../validations/user/create-user.schema.js';
 const userRouter = express.Router();
 const userController = new UserController();
 
+// Rota para criar usuário
 userRouter.post('/', validateDtoMiddleware(CreateUserSchema), (req, res) => userController.create(req, res));
 
 export { userRouter };

@@ -5,6 +5,7 @@ import { optionalAuthMiddleware } from '../middlewares/optional-auth.middleware.
 const cepRouter = express.Router();
 const cepController = new CepController();
 
+// Rota para buscar cep
 cepRouter.get('/:cep', optionalAuthMiddleware, (req, res, next) => cepController.getCep(req, res, next));
 
 export { cepRouter }; 

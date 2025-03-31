@@ -1,5 +1,4 @@
 import { UserAuthUseCase } from "../../domain/use-cases/auth/user-auth.use-case.js";
-import UserRepository from "../../infra/repository/user.repository.js";
 
 class AuthController {
   constructor() {

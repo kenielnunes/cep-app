@@ -11,7 +11,7 @@ class CepHistoryController {
     try {
       const userId = req.user.id;
 
-      // busca o historico de busca do usuario pelo id do jwt
+      // Busca o historico de busca do usuario pelo id do jwt
       const result = await this.findUserCepQueryHistoryUseCase.execute(userId);
 
       return res.status(200).json({ content: result });

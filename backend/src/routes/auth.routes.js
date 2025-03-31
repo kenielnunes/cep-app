@@ -6,6 +6,7 @@ import { AuthUserSchema } from '../validations/auth/auth-user.schema.js';
 const authRouter = express.Router();
 const authController = new AuthController();
 
+// Rota para autenticação do usuário
 authRouter.post('/', validateDtoMiddleware(AuthUserSchema), (req, res) => authController.login(req, res));
 
 export { authRouter }; 

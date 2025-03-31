@@ -10,7 +10,7 @@ class FindAddressByCepUseCase {
   }
 
   async execute(cep, userId) {
-    // verifica se o cep ja existe no banco de dados
+    // Verifica se o cep ja existe no banco de dados
     const cepInDb = await this.cepRepository.findByCep(cep);
 
     if (cepInDb) {
@@ -22,7 +22,7 @@ class FindAddressByCepUseCase {
       return cepInDb
     }
 
-    // se não existir no banco de dados, busca da integração externa e cadastra no banco
+    // Se não existir no banco de dados, busca da integração externa e cadastra no banco
     const address = await this.cepRepository.findByCepExternalIntegration(cep);
 
     await this.cepRepository.create(address);
